@@ -7,7 +7,7 @@ Am I In (a) Meeting?
 
 TBD
 
-## Geting Started
+## Getting Started
 
 ## Windows Script
 
@@ -37,10 +37,10 @@ We'll use a simple REST call to trigger that will turn on or off an LED based on
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-# Questions ?
+## Questions ?
 Have questions? You can reach me through several different channels. You can ask a question in the  [issues forum](/../../issues), 
 on [EasyProgramming.net](https://www.easyprogramming.net), or on the video comments on YouTube. 
 
 
-# Contribute 
+## Contribute 
 I will accept Pull requests fixing bugs or adding new features after I've vetted them. Feel free to create pull requests!  
