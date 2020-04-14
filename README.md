@@ -1,5 +1,5 @@
 # AIIM
-#####Am I In (a) Meeting?
+##### Am I In (a) Meeting?
 
 This app will detect if you are in a meeting in Zoom or Microsoft Teams and send a REST call to a Raspberry Pi which will them either turn on or off an LED. This was written
 to work with Windows for now but I will try to add Mac and Linux support. I welcome pull requests!
@@ -149,13 +149,17 @@ back to your meeting in Teams, the window will NOT change back to "Meetings | Mi
 
 The Raspberry Pi set up is more simple in the sense that I've covered these topics many times in previous tutorials. The main thing to know is that the Pi app
 is a Flask app running behind Apache so that you can make simple REST calls to turn your LED on and off. Another way of handling this would be MQTT which I MAY add to this script
-in the future. In the meantime, the topics you will need to know are:
+in the future. 
+
+In the meantime, the topics you will need to know are:
 
 1. [Headless Raspberry Pi](https://www.easyprogramming.net/raspberrypi/headless_raspbery_pi.php)
 2. [Control an LED From Your Browser](https://www.easyprogramming.net/raspberrypi/browser_control_led.php)
-3. [Run Apache on your Pi](https://www.easyprogramming.net/raspberrypi/pi_apache_web_server.php)
-4. [Running a Flask App on your Pi](https://www.easyprogramming.net/raspberrypi/pi_flask_app_server.php)
-5. [Run Flask behind Apache](https://www.easyprogramming.net/raspberrypi/pi_flask_apache.php)
+
+Please note that the second tutorial above is a culmination of these three tutorials which goes deeper into their specific topics:
+1. [Run Apache on your Pi](https://www.easyprogramming.net/raspberrypi/pi_apache_web_server.php)
+2. [Running a Flask App on your Pi](https://www.easyprogramming.net/raspberrypi/pi_flask_app_server.php)
+3. [Run Flask behind Apache](https://www.easyprogramming.net/raspberrypi/pi_flask_apache.php)
 
 We'll use a simple REST call to trigger that will turn on or off an LED based on a scheduled task:
 
