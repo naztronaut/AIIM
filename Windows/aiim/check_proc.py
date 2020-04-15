@@ -7,11 +7,12 @@ import config
 def find_processes():
     #  Need the /v for verbose. /fi filters the process and looks for window title for Teams meeting
     p = os.popen(config.tasklist_query()).read().splitlines()
-    print(config.tasklist_query())
     is_it_running = 0
     for item in p:
         # Still needs condition because otherwise the console returns "No tasks are running for specific criteria"
-        if item.find("CptHost.exe") > -1 or item.find("Teams.exe") > -1:
+        if config.ZOOM is True and item.find('CptHost.exe'):
+            is_it_running += 1
+        if config.TEAMS is True and item.find('Teams.exe'):
             is_it_running += 1
 
     change_led_status(is_it_running)
@@ -19,11 +20,9 @@ def find_processes():
 
 def change_led_status(is_it_running):
     if is_it_running > 0:
-        requests.get(config.PI_URL + '/led/?status=on')
+        requests.get("%s/%s?status=on" % (config.PI_URL, config.URL_CONTEXT))
     else:
-        requests.get(config.PI_URL + '/led/?status=off')
-
-# p = subprocess.check_output(['tasklist'])
+        requests.get("%s/%s?status=off" % (config.PI_URL, config.URL_CONTEXT))
 
 
 find_processes()
