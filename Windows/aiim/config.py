@@ -3,6 +3,8 @@ PI_URL = 'http://192.168.1.239'
 URL_CONTEXT = 'led'
 ZOOM = False
 TEAMS = False
+# To add flexibility later for multiple devices.
+# USERNAME = 'naz'
 
 
 # TODO Write this better
