@@ -26,12 +26,26 @@ The Windows directory contains the script that will be run on a scheduled task o
 More info on the Flask app can be found in the [Raspberry Pi Setup](#raspberry-pi-setup) section below. 
 
 
-
 ## Windows
 
 You need Python 3+ installed locally. I recommend at least version 3.6. Check out the official documentation on how to install Python on Windows here: https://docs.python.org/3/using/windows.html
 
 I also recommend making sure Python is available as a path variable so that you can run it on a basic command prompt without issues. 
+
+#### `aiim/config.py`
+
+The config needs some of your attention. Edit the `config.py` file:
+
+```python
+PI_URL = 'http://{{your_rpi_addr}}'
+URL_CONTEXT = 'led'
+ZOOM = True
+TEAMS = True
+```
+
+Change the `PI_URL` to your Pi's IP address or hostname. The `URL_CONTEXT` by default is `led`. If you change the context in the Raspberry Pi Apache Configs, 
+change this value. By default, both `ZOOM` and `TEAMS` are set to true because the script will look for both. If you only want to look for
+one or the other, change the value to `False`. Changing both to `False` will mean that they are both `True`. 
 
 #### `aiim/check_proc.py`
 
@@ -59,11 +73,6 @@ make a REST call:
 pip install requests
 ```
 
-Edit the `check_proc.py` script and change the `PI_URL` value on top:
-
-```python
-PI_URL = 'http://{{your_rpi_addr}}'
-```
 
 If you already have your Pi running, you can test the script with:
 
@@ -164,10 +173,10 @@ Please note that the second tutorial above is a culmination of these three tutor
 We'll use a simple REST call to trigger that will turn on or off an LED based on a scheduled task:
 
 ```bash
-http://{ip_addr}/led/?status=on/off
+http://{ip_addr}/led?status=on/off
 ```
 
-If everything is set up as expected, the status of `on` or `off` will turn the light on and off.
+If everything is set up as expected, the status of `on` or `off` will turn the light on and off. If you decide to change the context path from `/led` to something else
 
 ## Future TODO 
 
