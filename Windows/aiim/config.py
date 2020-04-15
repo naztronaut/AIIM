@@ -1,7 +1,8 @@
 # Change this to your Pi's URL
 PI_URL = 'http://192.168.1.239'
-ZOOM = True
-TEAMS = True
+URL_CONTEXT = 'led'
+ZOOM = False
+TEAMS = False
 
 
 # TODO Write this better
