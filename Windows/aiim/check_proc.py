@@ -9,11 +9,12 @@ def find_processes():
     p = os.popen(config.tasklist_query()).read().splitlines()
     is_it_running = 0
     for item in p:
+        print(item)
         # Still needs condition because otherwise the console returns "No tasks are running for specific criteria"
-        if config.ZOOM is True and item.find('CptHost.exe'):
-            is_it_running += 1
-        if config.TEAMS is True and item.find('Teams.exe'):
-            is_it_running += 1
+        if config.ZOOM is True and item.find('CptHost.exe') > -1:
+                is_it_running += 1
+        if config.TEAMS is True and item.find('Teams.exe') > -1:
+                is_it_running += 1
 
     change_led_status(is_it_running)
 
