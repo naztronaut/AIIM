@@ -1,8 +1,8 @@
 # Change this to your Pi's URL
 PI_URL = 'http://192.168.1.239'
 URL_CONTEXT = 'led'
-ZOOM = False
-TEAMS = False
+ZOOM = True
+TEAMS = True
 # To add flexibility later for multiple devices.
 # USERNAME = 'naz'
 
