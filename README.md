@@ -2,13 +2,16 @@
 ##### Am I In (a) Meeting?
 
 This app will detect if you are in a meeting in Zoom or Microsoft Teams and send a REST call to a Raspberry Pi which will them either turn on or off an LED. This was written
-to work with Windows for now but I will try to add Mac and Linux support. I welcome pull requests!
+to work with Windows for now but I will try to add Mac and Linux support. I welcome pull requests! This does **NOT** utilize any kind of APIs to determine if you are in a meeting.
+No APIs means lower risk for data exposure (I understand there has been a lot of concerns around zoom privacy and security). This app only cares about the processes.
 
-How does this work?
+##### How does this work?
 
-A Python script is run on a schedule using Task Scheduler which checks for the Zoom or Microsoft Teams processes. This does NOT use any kind of API into these apps to determine if you 
-are in a meeting. I know there has been a lot of privacy and security concerns with Zoom as of late. This script will not be able to see any kind of data or know anything about 
-your meetings, it can only tell if you are in a meeting and then notifies others in your household. 
+Here's a quick summary of how things work:
+
+1. Python script is run on a schedule using Task Scheduler which checks for the Zoom or Microsoft Teams processes. 
+2. If you are in a meeting, the script makes a REST call to a Raspberry Pi running a Flask app.
+3. Depending on your settings, it'll either turn the GPIO on/off or do some cool things with NeoPixel LEDs. 
 
 Zoom meeting detection works really well. However, Microsoft Teams isn't guaranteed. The way this script tells if you are in a Teams meeting is by reading the Window Title. When
 you first enter a meeting, the window title is "Meeting | Microsoft Teams" - however, if you switch to chat or activity or any other tab within Teams, the window title changes 
@@ -17,6 +20,26 @@ and DOES NOT change back to "Meeting" even after you go back to your meeting. It
 ## Demo
 
 TBD
+
+## Table of Contents
+
+1. [Getting Started](#getting-started)
+2. [Windows Setup](#windows)
+    1. The Code
+        1. [Configuration](#aiimconfigpy)
+        2. [Check Process Script](#aiimcheck_procpy)
+    2. [Scheduled Task](#scheduled-task)
+    3. [Detecting Meetings](#detecting-meetings)
+        1. [Zoom](#zoom)
+        2. [Microsoft Teams](#microsoft-teams)
+2. [Raspberry Pi Setup](#raspberry-pi-setup)
+    1. [Simple vs. NeoPixel](#simple-vs-neopixel)
+    2. [Endpoint](#endpoint)
+3. [Future](#future-todo)
+4. [Authors](#authors)
+5. [License](#license)
+6. [Questions](#questions-)
+7. [Contribute](#contribute)
 
 ## Getting Started
 
@@ -39,12 +62,20 @@ The config needs some of your attention. Edit the `config.py` file:
 ```python
 PI_URL = 'http://{{your_rpi_addr}}'
 URL_CONTEXT = 'led'
+LED_TYPE = 'simple'
 ZOOM = True
 TEAMS = True
 ```
 
-Change the `PI_URL` to your Pi's IP address or hostname. The `URL_CONTEXT` by default is `led`. If you change the context in the Raspberry Pi Apache Configs, 
-change this value. By default, both `ZOOM` and `TEAMS` are set to true because the script will look for both. If you only want to look for
+Change the `PI_URL` to your Pi's IP address or hostname. 
+
+The `URL_CONTEXT` by default is `led`. If you change the context in the Raspberry Pi Apache Configs, change this value. 
+
+The `LED_TYPE` will take one of two values: `simple` or `neopixel`.  The `simple` led type is if you're controlling a basic LED. This can actually be used with relays and transistors as
+well. Endless possibilities since all this does is turn a GPIO pin on and off. The `neopixel` led type requires you to use WS2812x LEDs. This is similar to my 
+[Dancy Pi](https://github.com/naztronaut/dancyPi-audio-reactive-led) set up. 
+
+By default, both `ZOOM` and `TEAMS` are set to true because the script will look for both. If you only want to look for
 one or the other, change the value to `False`. Changing both to `False` will mean that they are both `True`. 
 
 #### `aiim/check_proc.py`
@@ -58,7 +89,7 @@ python -m venv venv
 ```
 
 This will download an install a virtual environment called `venv`. Your directory should now have a `venv\` directory along with your `aiim\` package. This app is not complex
-so it doesn't really matter where your venv gets installed. 
+so it doesn't really matter where your `venv` gets installed. 
 
 Activate venv with this command:
  
@@ -170,13 +201,47 @@ Please note that the second tutorial above is a culmination of these three tutor
 2. [Running a Flask App on your Pi](https://www.easyprogramming.net/raspberrypi/pi_flask_app_server.php)
 3. [Run Flask behind Apache](https://www.easyprogramming.net/raspberrypi/pi_flask_apache.php)
 
+#### Simple vs. NeoPixel
+
+The only addition is that since this script allows a "Simple" or "NeoPixel" LED output. By default, the script uses "Simple" which means it only turns the GPIO pin on or off. It's simple
+but you can do a lot with it. You can turn an LED on and off, you can control a relay which controls an actual appliance, a transistor which can turn on and off really fast. 
+If you are using the Simple mode then you don't have to touch the script. 
+
+However, if you want to use the 'NeoPixel' mode. You have to take a few actions. First, we need to install the `adafruit-circuitpython-neopixel` library. To do this, if you are 
+using a virtual environment, activate `venv`, then run the command below. If you are  not using a `venv` or want to install this globally, prepend the command below with `sudo` 
+as you'll need higher privileges to run the script. 
+ 
+```shell
+pip3 install adafruit-circuitpython-neopixel
+```
+ 
+Get more info on this library at https://pypi.org/project/adafruit-circuitpython-neopixel/
+
+Your next actions will be in the `led.py` file. You will see several lines that start with "`# Uncomment below to use NeoPixel`", remove the comment from the lines below it. 
+
+An example LED Initialization:
+
+```python
+# Uncomment below to use NeoPixel
+LED_COUNT = 142
+pixels = neopixel.NeoPixel(board.D18, LED_COUNT)
+```
+
+Once you uncomment the necessary lines, you need to tell the app how many LEDs your set up has. Before you run the app, in the `led.py` file, change the value of `LED_COUNT` 
+shown above. 
+
+The default is 142 LEDs since that's what I have. This should work with any number of LEDs, whether you have 1 or 300. The only limitation that you may run into is current. 
+Make sure your power supply can supply enough current (I recommend at least a 2A power supply if you have more than 100 LEDs). 
+
+#### Endpoint
 We'll use a simple REST call to trigger that will turn on or off an LED based on a scheduled task:
 
 ```bash
-http://{ip_addr}/led?status=on/off
+http://{ip_addr}/led?type=simple/neopixel&status=on/off
 ```
 
-If everything is set up as expected, the status of `on` or `off` will turn the light on and off. If you decide to change the context path from `/led` to something else
+You either send a `simple` or `neopixel` as the type and `on` or `off` as the status. If everything is set up as expected, the status of `on` or `off` will turn the light on 
+and off. If you decide to change the context path in the `check_proc.py` file from `/led` to something else.
 
 ## Future TODO 
 
