@@ -217,18 +217,11 @@ pip3 install adafruit-circuitpython-neopixel
  
 Get more info on this library at https://pypi.org/project/adafruit-circuitpython-neopixel/
 
-Your next actions will be in the `led.py` file. You will see several lines that start with "`# Uncomment below to use NeoPixel`", remove the comment from the lines below it. 
-
-An example LED Initialization:
+Your next actions will be in the `neopix.py` file. You need to tell the app how many LEDs your set up has by changing the value of `LED_COUNT` shown below: 
 
 ```python
-# Uncomment below to use NeoPixel
 LED_COUNT = 142
-pixels = neopixel.NeoPixel(board.D18, LED_COUNT)
 ```
-
-Once you uncomment the necessary lines, you need to tell the app how many LEDs your set up has. Before you run the app, in the `led.py` file, change the value of `LED_COUNT` 
-shown above. 
 
 The default is 142 LEDs since that's what I have. This should work with any number of LEDs, whether you have 1 or 300. The only limitation that you may run into is current. 
 Make sure your power supply can supply enough current (I recommend at least a 2A power supply if you have more than 100 LEDs). 
