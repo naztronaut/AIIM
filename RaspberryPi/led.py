@@ -1,19 +1,11 @@
 from flask import Flask, request, jsonify
 import RPi.GPIO as GPIO
-
-# Uncomment below to use NeoPixel
-import board
-import neopixel
-import random
+import os
 
 app = Flask(__name__)
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(18, GPIO.OUT)
-
-# Uncomment below to use NeoPixel
-LED_COUNT = 142
-pixels = neopixel.NeoPixel(board.D18, LED_COUNT)
 
 
 # {{url}}/led?type={{simple/neopixel}}&status=on/off
@@ -30,16 +22,13 @@ def led():
             return jsonify({"message": "Led successfully turned off"})
         else:
             return jsonify({"message": "Not a valid status"})
-    # Uncomment below to use NeoPixel
     elif led_type == 'neopixel':
         status = request.args.get('status')
         if status == "on":
-            for x in range(0, LED_COUNT):
-                pixels[x] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            os.popen('sudo python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/neopix.py on')
             return jsonify({"message": "NeoPixel successfully turned on"})
         elif status == "off":
-            for x in range(0, LED_COUNT):
-                pixels[x] = (0, 0, 0)
+            os.popen('sudo python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/neopix.py off')
             return jsonify({"message": "NeoPixel successfully turned off"})
         else:
             return jsonify({"message": "Not a valid status"})
