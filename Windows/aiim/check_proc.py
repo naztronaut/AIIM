@@ -21,9 +21,9 @@ def find_processes():
 
 def change_led_status(is_it_running):
     if is_it_running > 0:
-        requests.get("%s/%s?status=on" % (config.PI_URL, config.URL_CONTEXT))
+        requests.get("%s/%s?type=%s&status=on" % (config.PI_URL, config.URL_CONTEXT, config.LED_TYPE))
     else:
-        requests.get("%s/%s?status=off" % (config.PI_URL, config.URL_CONTEXT))
+        requests.get("%s/%s?type=%s&status=off" % (config.PI_URL, config.URL_CONTEXT, config.LED_TYPE))
 
 
 find_processes()
