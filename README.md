@@ -33,8 +33,10 @@ TBD
         1. [Zoom](#zoom)
         2. [Microsoft Teams](#microsoft-teams)
 2. [Raspberry Pi Setup](#raspberry-pi-setup)
-    1. [Simple vs. NeoPixel](#simple-vs-neopixel)
-    2. [Endpoint](#endpoint)
+    1. [Installation](#installation)
+    2. [Configuration](#configuration)
+    3. [Simple vs. NeoPixel](#simple-vs-neopixel)
+    4. [Endpoint](#endpoint)
 3. [Future](#future-todo)
 4. [Authors](#authors)
 5. [License](#license)
@@ -91,7 +93,7 @@ python -m venv venv
 This will download an install a virtual environment called `venv`. Your directory should now have a `venv\` directory along with your `aiim\` package. This app is not complex
 so it doesn't really matter where your `venv` gets installed. 
 
-Activate venv with this command:
+Activate `venv` with this command:
  
 ```shell
 venv\Scripts\activate.bat
@@ -188,8 +190,7 @@ back to your meeting in Teams, the window will NOT change back to "Meetings | Mi
 ## Raspberry Pi Setup
 
 The Raspberry Pi set up is more simple in the sense that I've covered these topics many times in previous tutorials. The main thing to know is that the Pi app
-is a Flask app running behind Apache so that you can make simple REST calls to turn your LED on and off. You need to connect your data pin to GPIO Pin 18. If you want to use another Pin,
-make the edit in `led.py` 
+is a Flask app running behind Apache so that you can make simple REST calls to turn your LED on and off. 
 
 Another way of handling this would be MQTT which I MAY add to this script in the future. 
 
@@ -202,6 +203,44 @@ Please note that the second tutorial above is a culmination of these three tutor
 1. [Run Apache on your Pi](https://www.easyprogramming.net/raspberrypi/pi_apache_web_server.php)
 2. [Running a Flask App on your Pi](https://www.easyprogramming.net/raspberrypi/pi_flask_app_server.php)
 3. [Run Flask behind Apache](https://www.easyprogramming.net/raspberrypi/pi_flask_apache.php)
+
+#### Installation
+
+To install this on your Pi, you can clone this repo to your local Windows machine and copy over all the files in the `Windows\` directory to your Pi. But the Raspberry Pi piece is 
+pretty simple so cloning the whole repository again may not be necessary. So I'm including a .zip you can `WGET` in the `RaspberryPi/pi_dist` directory. In your Pi, do this:
+
+```shell
+cd /var/www/html
+wget https://github.com/naztronaut/AIIM/blob/master/RaspberryPi/pi_dist/led.zip
+unzip led.zip
+```
+
+This should unzip and put everything in a `/led` directory. 
+
+#### Configuration
+
+There are a couple of configuration considerations to take. The first is the GPIO pin used as the data pin. By default, the pin used for both `simple` and `neopixel` set up
+is GPIO Pin 18. If you want to change this for the "Simple" set up, the following value for `PIN` should be changed in `led.py`:
+
+```python
+PIN = 18
+```
+
+If you want to change this for the "NeoPixel" set up, change the `D18` to `D#` in `neopix.py`:
+
+```python
+pixels = neopixel.NeoPixel(board.D18, LED_COUNT)
+```
+
+The second config change to consider if you're using the 'NeoPixel' set up is the LED Count in `neopix.py`. You need to tell the app how many LEDs your set up has by 
+changing the value of `LED_COUNT` shown below: 
+
+```python
+LED_COUNT = 142
+```
+
+The default is 142 LEDs since that's what I have. This should work with any number of LEDs, whether you have 1 or 300. The only limitation that you may run into is current. 
+
 
 #### Simple vs. NeoPixel
 
@@ -219,13 +258,6 @@ pip3 install adafruit-circuitpython-neopixel
  
 Get more info on this library at https://pypi.org/project/adafruit-circuitpython-neopixel/
 
-Your next actions will be in the `neopix.py` file. You need to tell the app how many LEDs your set up has by changing the value of `LED_COUNT` shown below: 
-
-```python
-LED_COUNT = 142
-```
-
-The default is 142 LEDs since that's what I have. This should work with any number of LEDs, whether you have 1 or 300. The only limitation that you may run into is current. 
 Make sure your power supply can supply enough current (I recommend at least a 2A power supply if you have more than 100 LEDs). 
 
 #### Endpoint
