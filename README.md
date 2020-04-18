@@ -1,9 +1,8 @@
-# AIIM
-##### Am I In (a) Meeting?
+# AIIM (Am I In [a] Meeting?)
 
-This app will detect if you are in a meeting in Zoom or Microsoft Teams and send a REST call to a Raspberry Pi which will them either turn on or off an LED. This was written
-to work with Windows for now but I will try to add Mac and Linux support. I welcome pull requests! This does **NOT** utilize any kind of APIs to determine if you are in a meeting.
-No APIs means lower risk for data exposure (I understand there has been a lot of concerns around zoom privacy and security). This app only cares about the processes.
+This app will detect if you are in a meeting in Zoom or Microsoft Teams by looking at your tasklist and send a REST call to a Raspberry Pi which will either control a simple LED or 
+NeoPixel LED .This was written to work with Windows for now but I will try to add Mac and Linux support. I welcome pull requests! This does **NOT** utilize any kind of APIs to 
+determine if you are in a meeting. No APIs means lower risk for data exposure (I understand there has been a lot of concerns around zoom privacy and security). 
 
 ##### How does this work?
 
