@@ -2,10 +2,13 @@ from flask import Flask, request, jsonify
 import RPi.GPIO as GPIO
 import os
 
+# Uses GPIO Pin 18 by default - change this if you want to use another pin
+PIN = 18
+
 app = Flask(__name__)
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(18, GPIO.OUT)
+GPIO.setup(PIN, GPIO.OUT)
 
 
 # {{url}}/led?type={{simple/neopixel}}&status=on/off
@@ -15,10 +18,10 @@ def led():
     if led_type == 'simple':
         status = request.args.get('status')
         if status == "on":
-            GPIO.output(18, GPIO.HIGH)
+            GPIO.output(PIN, GPIO.HIGH)
             return jsonify({"message": "Led successfully turned on"})
         elif status == "off":
-            GPIO.output(18, GPIO.LOW)
+            GPIO.output(PIN, GPIO.LOW)
             return jsonify({"message": "Led successfully turned off"})
         else:
             return jsonify({"message": "Not a valid status"})
