@@ -5,6 +5,7 @@ import random
 
 # Change to the number of LEDs you are using
 LED_COUNT = 142
+# Uses GPIO Pin 18. if you want to use another pin, change the D18 to some other pin
 pixels = neopixel.NeoPixel(board.D18, LED_COUNT)
 
 try:
