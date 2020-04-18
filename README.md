@@ -62,7 +62,7 @@ The config needs some of your attention. Edit the `config.py` file:
 ```python
 PI_URL = 'http://{{your_rpi_addr}}'
 URL_CONTEXT = 'led'
-LED_TYPE = 'simple'
+LED_TYPE = '{{simple/neopixel}}'
 ZOOM = True
 TEAMS = True
 ```
@@ -73,7 +73,7 @@ The `URL_CONTEXT` by default is `led`. If you change the context in the Raspberr
 
 The `LED_TYPE` will take one of two values: `simple` or `neopixel`.  The `simple` led type is if you're controlling a basic LED. This can actually be used with relays and transistors as
 well. Endless possibilities since all this does is turn a GPIO pin on and off. The `neopixel` led type requires you to use WS2812x LEDs. This is similar to my 
-[Dancy Pi](https://github.com/naztronaut/dancyPi-audio-reactive-led) set up. 
+[Dancy Pi](https://github.com/naztronaut/dancyPi-audio-reactive-led) set up. `neopixel` is currently the default.
 
 By default, both `ZOOM` and `TEAMS` are set to true because the script will look for both. If you only want to look for
 one or the other, change the value to `False`. Changing both to `False` will mean that they are both `True`. 
@@ -188,8 +188,10 @@ back to your meeting in Teams, the window will NOT change back to "Meetings | Mi
 ## Raspberry Pi Setup
 
 The Raspberry Pi set up is more simple in the sense that I've covered these topics many times in previous tutorials. The main thing to know is that the Pi app
-is a Flask app running behind Apache so that you can make simple REST calls to turn your LED on and off. Another way of handling this would be MQTT which I MAY add to this script
-in the future. 
+is a Flask app running behind Apache so that you can make simple REST calls to turn your LED on and off. You need to connect your data pin to GPIO Pin 18. If you want to use another Pin,
+make the edit in `led.py` 
+
+Another way of handling this would be MQTT which I MAY add to this script in the future. 
 
 In the meantime, the topics you will need to know are:
 
