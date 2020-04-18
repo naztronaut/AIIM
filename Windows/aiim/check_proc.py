@@ -1,5 +1,4 @@
 import os
-# import subprocess
 import requests as requests
 import config
 
@@ -13,10 +12,10 @@ def find_processes():
                 is_it_running += 1
         if config.TEAMS is True and item.find('Teams.exe') > -1:
                 is_it_running += 1
-
     change_led_status(is_it_running)
 
 
+# Shouldn't need to change anything below - if you need to change the URL, context, or led type, check config.py
 def change_led_status(is_it_running):
     if is_it_running > 0:
         requests.get("%s/%s?type=%s&status=on" % (config.PI_URL, config.URL_CONTEXT, config.LED_TYPE))
