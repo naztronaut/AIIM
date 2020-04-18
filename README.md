@@ -211,11 +211,27 @@ pretty simple so cloning the whole repository again may not be necessary. So I'm
 
 ```shell
 cd /var/www/html
-wget https://github.com/naztronaut/AIIM/blob/master/RaspberryPi/pi_dist/led.zip
-unzip led.zip
+sudo wget https://github.com/naztronaut/AIIM/raw/master/RaspberryPi/pi_dist/led.zip
+sudo unzip led.zip -d led
 ```
 
-This should unzip and put everything in a `/led` directory. 
+This should unzip and put everything in a `/led` directory.  Then `cd` into the directory, install the virtual environment and take ownership of everything:
+
+```shell
+cd led
+python3 -m venv venv
+sudo chown -R pi:pi *
+```
+
+For some reason, the `activate_this.py` file no longer comes with `venv` and it has been removed from their official repository. I need to read more about why that is and make updates,
+but for now, you need to download it manually in order for the app to work:
+
+```shell
+cd venv/bin
+wget https://raw.githubusercontent.com/naztronaut/RaspberryPi-RGBW-Control/master/utils/activate_this.py
+```
+
+Learn more about the Apache set up here: https://github.com/naztronaut/RaspberryPi-RGBW-Control#apache-and-wsgi---web-server 
 
 #### Configuration
 
