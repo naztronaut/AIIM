@@ -2,7 +2,7 @@
 PI_URL = 'http://192.168.1.239'
 URL_CONTEXT = 'led'
 # LED_TYPE should either be 'simple' or 'neopixel'
-LED_TYPE = 'simple'
+LED_TYPE = 'neopixel'
 ZOOM = True
 TEAMS = True
 # To add flexibility later for multiple devices.
@@ -10,6 +10,7 @@ TEAMS = True
 
 
 # TODO Write this better
+# Note: Need the /v for verbose. /fi filters the process and looks for window title for Teams meeting
 def tasklist_query():
     if ZOOM is True and TEAMS is False:
         query = 'tasklist /fo table /v /fi "imagename eq CptHost.exe"'
