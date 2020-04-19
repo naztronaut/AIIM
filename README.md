@@ -235,7 +235,7 @@ Learn more about the Apache set up here: https://github.com/naztronaut/Raspberry
 #### Configuration
 
 There are a couple of configuration considerations to take. The first is the GPIO pin used as the data pin. By default, the pin used for both `simple` and `neopixel` set up
-is GPIO Pin 18. If you want to change this for the "Simple" set up, the following value for `PIN` should be changed in `led.py`:
+is GPIO Pin 18. If you want to change this for the "Simple" set up, the following value for `PIN` should be changed in `led_service.py`:
 
 ```python
 PIN = 18
@@ -276,7 +276,9 @@ Get more info on this library at https://pypi.org/project/adafruit-circuitpython
 Make sure your power supply can supply enough current (I recommend at least a 2A power supply if you have more than 100 LEDs). The status of the lights is stored in 
 `neopixel_status.txt` as either a `1` for on or `0` for off. 
 
-#### Endpoint
+#### Endpoints
+
+##### /led?type={{simple/neopixel}}&status={{on/off}}
 We'll use a simple REST call to trigger that will turn on or off an LED based on a scheduled task:
 
 ```bash
@@ -285,6 +287,22 @@ http://{ip_addr}/led?type=simple/neopixel&status=on/off
 
 You either send a `simple` or `neopixel` as the type and `on` or `off` as the status. If everything is set up as expected, the status of `on` or `off` will turn the light on 
 and off. If you decide to change the context path in the `check_proc.py` file from `/led` to something else.
+
+##### /led/meeting_status
+
+The following will return the meeting status as either True or False. Only supports NeoPixel lights for now since that's the only status currently being saved. 
+
+```bash
+http://{ip_addr}/led/meeting_status
+```
+
+And the output looks something like this:
+
+```json
+{
+  "meeting_status": true
+}
+```
 
 ## Future TODO 
 
