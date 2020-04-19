@@ -46,3 +46,15 @@ def led():
             return jsonify({"message": "NeoPixel successfully turned off"})
         else:
             return jsonify({"message": "Not a valid status"})
+
+
+# Currently only returns meeting status for 'neopixel' mode
+@app.route('/meeting_status', methods=['GET'])
+def meeting_status():
+    with open(os.path.dirname(os.path.realpath(__file__)) + '/neopixel_status.txt', 'r') as f:
+        is_it_currently_on = f.read().rstrip()
+
+    if is_it_currently_on == '1':
+        return jsonify({"meeting_status": True})
+    elif is_it_currently_on == '0':
+        return jsonify({"meeting_status": False})
