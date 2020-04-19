@@ -274,7 +274,7 @@ pip3 install adafruit-circuitpython-neopixel
 Get more info on this library at https://pypi.org/project/adafruit-circuitpython-neopixel/
 
 Make sure your power supply can supply enough current (I recommend at least a 2A power supply if you have more than 100 LEDs). The status of the lights is stored in 
-`neopixel_status.txt` as either a `1` for on or `0` for off. 
+`neopixel_status.txt` as either a `1` for on or `0` for off.  The status of this can be retrieved using the [meeting_status](#ledmeeting_status) endpoint below. 
 
 #### Endpoints
 
