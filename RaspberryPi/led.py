@@ -27,11 +27,22 @@ def led():
             return jsonify({"message": "Not a valid status"})
     elif led_type == 'neopixel':
         status = request.args.get('status')
+        # Get the status of neopixel_status.txt to determine whether or not to make the call to neopix.py
+        with open(os.path.dirname(os.path.realpath(__file__)) + '/neopixel_status.txt', 'r') as f:
+            is_it_currently_on = f.read().rstrip()
         if status == "on":
-            os.popen('sudo python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/neopix.py on')
+            if is_it_currently_on == '0':
+                os.popen('sudo python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/neopix.py on')
+            with open(os.path.dirname(os.path.realpath(__file__)) + '/neopixel_status.txt', 'w') as f:
+                # Sets NeoPixel status as currently on
+                f.write('1')
             return jsonify({"message": "NeoPixel successfully turned on"})
         elif status == "off":
-            os.popen('sudo python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/neopix.py off')
+            if is_it_currently_on == '1':
+                os.popen('sudo python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/neopix.py off')
+            with open(os.path.dirname(os.path.realpath(__file__)) + '/neopixel_status.txt', 'w') as f:
+                # Sets NeoPixel status as currently off
+                f.write('0')
             return jsonify({"message": "NeoPixel successfully turned off"})
         else:
             return jsonify({"message": "Not a valid status"})
