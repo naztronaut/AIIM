@@ -5,6 +5,7 @@ URL_CONTEXT = 'led'
 LED_TYPE = 'neopixel'
 ZOOM = True
 TEAMS = True
+THEME = 'random'
 # To add flexibility later for multiple devices.
 # USERNAME = 'naz'
 

@@ -18,7 +18,7 @@ def find_processes():
 # Shouldn't need to change anything below - if you need to change the URL, context, or led type, check config.py
 def change_led_status(is_it_running):
     if is_it_running > 0:
-        requests.get("%s/%s?type=%s&status=on" % (config.PI_URL, config.URL_CONTEXT, config.LED_TYPE))
+        requests.get("%s/%s?type=%s&theme=%s&status=on" % (config.PI_URL, config.THEME, config.URL_CONTEXT, config.LED_TYPE))
     else:
         requests.get("%s/%s?type=%s&status=off" % (config.PI_URL, config.URL_CONTEXT, config.LED_TYPE))
 
