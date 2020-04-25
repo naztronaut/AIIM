@@ -55,3 +55,14 @@ nature = [
     [0, 128, 128],
     [128, 128, 0]
 ]
+
+
+def pick_theme(theme):
+    if theme == 'valentines':
+        return valentines
+    elif theme == 'cool':
+        return cool
+    elif theme == 'nature':
+        return nature
+    else:
+        return valentines  # Default will be sent if the theme doesn't match anything else
