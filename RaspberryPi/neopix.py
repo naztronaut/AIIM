@@ -24,10 +24,10 @@ except:
 def theme_colors():
     if theme == 'random':
         return random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
-    elif theme == 'sunset':
-        sunset_size = len(themes.sunset)
+    elif theme == 'valentines':
+        valentines_size = len(themes.valentines)
         # return random.randint(0, 255), random.randint(0, 128), random.randint(0, 36)
-        chosen_color = themes.sunset[random.randint(0, sunset_size)-1]
+        chosen_color = themes.valentines[random.randint(0, valentines_size)-1]
         return chosen_color[0], chosen_color[1], chosen_color[2]
     elif theme == 'cool':
         cool_size = len(themes.cool)
@@ -38,7 +38,7 @@ def theme_colors():
         chosen_color = themes.nature[random.randint(0, nature_size)-1]
         return chosen_color[0], chosen_color[1], chosen_color[2]
     else:
-        print("Uknown theme. Choose from sunset, cool, and nature only")
+        print("Unknown theme. Choose from valentines, cool, nature, and random only")
 
 
 if led_status == 'on':
