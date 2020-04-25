@@ -9,7 +9,7 @@ GPIO.setwarnings(False)
 GPIO.setup(PIN, GPIO.OUT)
 
 
-def update_led(led_type, status):
+def update_led(led_type, status, theme):
     if led_type == 'simple':
         if status == "on":
             GPIO.output(PIN, GPIO.HIGH)
@@ -25,7 +25,7 @@ def update_led(led_type, status):
             is_it_currently_on = f.read().rstrip()
         if status == "on":
             if is_it_currently_on == '0':
-                os.popen('sudo python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/neopix.py on')
+                os.popen('sudo python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/neopix.py on ' + theme)
             with open(os.path.dirname(os.path.realpath(__file__)) + '/neopixel_status.txt', 'w') as f:
                 # Sets NeoPixel status as currently on
                 f.write('1')

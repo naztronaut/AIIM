@@ -9,7 +9,11 @@ app = Flask(__name__)
 def led():
     led_type = request.args.get('type')
     status = request.args.get('status')
-    resp = ls.update_led(led_type, status)
+    if 'theme' in request.args:
+        theme = request.args.get('theme')
+    else:
+        theme = 'random'
+    resp = ls.update_led(led_type, status, theme)
     return jsonify({"message": resp})
 
 

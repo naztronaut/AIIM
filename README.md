@@ -18,7 +18,9 @@ and DOES NOT change back to "Meeting" even after you go back to your meeting. It
 
 ## Demo
 
-TBD
+(Coming soon)
+
+<a href="https://www.youtube.com/nazmusnasir" target="_blank"><img src="img/Thumbnail.jpg" alt="AIIM Demo" width="700px" /></a>
 
 ## Table of Contents
 
@@ -66,6 +68,7 @@ URL_CONTEXT = 'led'
 LED_TYPE = '{{simple/neopixel}}'
 ZOOM = True
 TEAMS = True
+THEME = 'random' # valentines, cool, nature, random (blank = random)
 ```
 
 Change the `PI_URL` to your Pi's IP address or hostname. 
@@ -78,6 +81,14 @@ well. Endless possibilities since all this does is turn a GPIO pin on and off. T
 
 By default, both `ZOOM` and `TEAMS` are set to true because the script will look for both. If you only want to look for
 one or the other, change the value to `False`. Changing both to `False` will mean that they are both `True`. 
+
+The `THEME` is just something I added for fun. The default is that a random color is set for each LED, but there are 3 built-in "themes": valentines, cool, nature, and random. It's not
+necessary to pass this parameter, but if you do, you'll get a themed color:
+
+- Valentines: redish colors
+- Cool: blueish coloes
+- Nature: greenish colors
+- Random: the default - randomly generates a color
 
 #### `aiim/check_proc.py`
 
@@ -278,14 +289,15 @@ Make sure your power supply can supply enough current (I recommend at least a 2A
 
 #### Endpoints
 
-##### /led?type={{simple/neopixel}}&status={{on/off}}
-We'll use a simple REST call to trigger that will turn on or off an LED based on a scheduled task:
+##### /led?type={{simple/neopixel}}&theme={{nature/valentines/cool}}&status={{on/off}}
+We'll use a simple REST call to trigger that will turn on or off an LED based on a scheduled task as shown in the example below:
 
 ```bash
-http://{ip_addr}/led?type=simple/neopixel&status=on/off
+http://{ip_addr}/led?type=neopixel&theme=nature&status=on
 ```
 
-You either send a `simple` or `neopixel` as the type and `on` or `off` as the status. If everything is set up as expected, the status of `on` or `off` will turn the light on 
+You either send a `simple` or `neopixel` as the type and `on` or `off` as the status. The `theme` parameter is not necessary but the way `check_proc.py` is coded, it'll send a
+ theme by default to both types of calls. If everything is set up as expected, the status of `on` or `off` will turn the light on 
 and off. If you decide to change the context path in the `check_proc.py` file from `/led` to something else.
 
 ##### /led/meeting_status
