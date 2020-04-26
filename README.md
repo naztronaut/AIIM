@@ -287,6 +287,10 @@ Get more info on this library at https://pypi.org/project/adafruit-circuitpython
 Make sure your power supply can supply enough current (I recommend at least a 2A power supply if you have more than 100 LEDs). The status of the lights is stored in 
 `neopixel_status.txt` as either a `1` for on or `0` for off.  The status of this can be retrieved using the [meeting_status](#ledmeeting_status) endpoint below. 
 
+Here's a small Fritz diagram of how to wire the Pi with your WS2812b LED strip:
+
+<img src="img/AIIM_circuit.jpg" width="700px" alt="Circuit Diagram for WS2812b lights">
+
 #### Endpoints
 
 ##### /led?type={{simple/neopixel}}&theme={{nature/valentines/cool}}&status={{on/off}}
