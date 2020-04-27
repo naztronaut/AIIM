@@ -20,7 +20,7 @@ and DOES NOT change back to "Meeting" even after you go back to your meeting. It
 
 (Coming soon)
 
-<a href="https://www.youtube.com/nazmusnasir" target="_blank"><img src="img/Thumbnail.jpg" alt="AIIM Demo" width="700px" /></a>
+<a href="https://www.youtube.com/nazmusnasir" target="_blank"><img src="img/thumbnail.png" alt="AIIM Demo" width="700px" /></a>
 
 ## Table of Contents
 
