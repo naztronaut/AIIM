@@ -4,18 +4,6 @@ This app will detect if you are in a meeting in Zoom or Microsoft Teams by looki
 NeoPixel LED .This was written to work with Windows for now but I will try to add Mac and Linux support. I welcome pull requests! This does **NOT** utilize any kind of APIs to 
 determine if you are in a meeting. No APIs means lower risk for data exposure (I understand there has been a lot of concerns around zoom privacy and security). 
 
-##### How does this work?
-
-Here's a quick summary of how things work:
-
-1. Python script is run on a schedule using Task Scheduler which checks for the Zoom or Microsoft Teams processes. 
-2. If you are in a meeting, the script makes a REST call to a Raspberry Pi running a Flask app.
-3. Depending on your settings, it'll either turn the GPIO on/off or do some cool things with NeoPixel LEDs. 
-
-Zoom meeting detection works really well. However, Microsoft Teams isn't guaranteed. The way this script tells if you are in a Teams meeting is by reading the Window Title. When
-you first enter a meeting, the window title is "Meeting | Microsoft Teams" - however, if you switch to chat or activity or any other tab within Teams, the window title changes 
-and DOES NOT change back to "Meeting" even after you go back to your meeting. It's very strange.  
-
 ## Demo
 
 (Coming soon)
@@ -45,6 +33,18 @@ and DOES NOT change back to "Meeting" even after you go back to your meeting. It
 7. [Contribute](#contribute)
 
 ## Getting Started
+
+##### How does this work?
+
+Here's a quick summary of how things work:
+
+1. Python script is run on a schedule using Task Scheduler which checks for the Zoom or Microsoft Teams processes. 
+2. If you are in a meeting, the script makes a REST call to a Raspberry Pi running a Flask app.
+3. Depending on your settings, it'll either turn the GPIO on/off or do some cool things with NeoPixel LEDs. 
+
+Zoom meeting detection works really well. However, Microsoft Teams isn't guaranteed. The way this script tells if you are in a Teams meeting is by reading the Window Title. When
+you first enter a meeting, the window title is "Meeting | Microsoft Teams" - however, if you switch to chat or activity or any other tab within Teams, the window title changes 
+and DOES NOT change back to "Meeting" even after you go back to your meeting. It's very strange.  
 
 There are two directories in this repo: Windows and Raspberry Pi;
 

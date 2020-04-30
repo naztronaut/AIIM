@@ -1,1 +1,7 @@
 theme: jekyll-theme-cayman
+show_downloads: true
+title: AIIM
+description: Am I In (a) Meeting? Notify others when you're in a Zoom/Teams meeting
+#github:
+#  zip_url:
+#  tar_url:
