@@ -8,7 +8,7 @@ determine if you are in a meeting. No APIs means lower risk for data exposure (I
 
 (Coming soon)
 
-<a href="https://www.youtube.com/nazmusnasir" target="_blank"><img src="img/thumbnail.png" alt="AIIM Demo" width="700px" /></a>
+<a href="https://www.youtube.com/watch?v=Kf6seycN9yY" target="_blank"><img src="img/thumbnail.png" alt="AIIM Demo" width="700px" /></a>
 
 ## Table of Contents
 
