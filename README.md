@@ -68,6 +68,7 @@ URL_CONTEXT = 'led'
 LED_TYPE = '{{simple/neopixel}}'
 ZOOM = True
 TEAMS = True
+SLACK = True
 THEME = 'random' # valentines, cool, nature, random (blank = random)
 ```
 
@@ -79,8 +80,7 @@ The `LED_TYPE` will take one of two values: `simple` or `neopixel`.  The `simple
 well. Endless possibilities since all this does is turn a GPIO pin on and off. The `neopixel` led type requires you to use WS2812x LEDs. This is similar to my 
 [Dancy Pi](https://github.com/naztronaut/dancyPi-audio-reactive-led) set up. `neopixel` is currently the default.
 
-By default, both `ZOOM` and `TEAMS` are set to true because the script will look for both. If you only want to look for
-one or the other, change the value to `False`. Changing both to `False` will mean that they are both `True`. 
+By default, both `ZOOM`, `TEAMS`, and`SLACK` are set to true because the script will look for all three. If you don't want to look for any of them, change the value to `False`. 
 
 The `THEME` is just something I added for fun. The default is that a random color is set for each LED, but there are 3 built-in "themes": valentines, cool, nature, and random. It's not
 necessary to pass this parameter, but if you do, you'll get a themed color:
@@ -128,7 +128,9 @@ It'll either error out or give you nothing.
 The main part about this script is the command to generate the task list:
 
 ```python
-os.popen('tasklist /fo table /v /fi "imagename eq CptHost.exe" && tasklist /fo table /v /fi "imagename eq Teams.exe" /fi "windowtitle eq Meet*" /nh')
+os.popen('''tasklist /fo table /v /fi "imagename eq CptHost.exe" 
+          && tasklist /fo table /v /fi "imagename eq Teams.exe" /fi "windowtitle eq Meet*" /nh
+          && tasklist /fo table /v /fi "imagename eq Slack.exe" /fi "windowtitle eq call*" /nh''')
 ``` 
 
 This invokes the `tasklist` command twice. The first time it looks for `CptHost.exe` which is the process for a Zoom meeting. Zoom is simple so as long as that's running, 
@@ -137,11 +139,13 @@ you're in a Zoom meeting.
 The second is it looks for `Teams.exe` which is the Microsoft Teams process. But we need to filter it further to look for a window title to equal to `Meet*` because we are searching for
 a window titled "Meeting | Microsoft Teams".  
 
+The third is looking for `Slack.exe` which is the Slack process. We filter it further looking for `call*` in the window title because Slack calls their meetings "calls". 
+
 As mentioned above, Microsoft Teams is a little weird. If you start/join a meeting, your window title will be "Meeting | Microsoft Teams" - however, if you switch to enter
 component within teams (e.g. activity, chat, etc.), the title will change and the app will think you are no longer in a meeting (once the scheduled task runs). Even if you go 
 back to your meeting in Teams, the window will NOT change back to "Meetings | Microsoft Teams" - why? I don't know. 
 
-The app is more accurate for Zoom meetings than it is with Microsoft Teams.
+Although we're looking for a window title with Slack as well, it's a bit more reliable than Teams because it opens a dedicated window and the title does not seem to change.  
 
 The `/v` flag is for verbose so the call can take a long time. However, adding the `/fi` flag for filtering makes it significantly faster! 
 
