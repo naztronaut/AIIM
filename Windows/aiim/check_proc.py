@@ -12,6 +12,8 @@ def find_processes():
                 is_it_running += 1
         if config.TEAMS is True and item.find('Teams.exe') > -1:
                 is_it_running += 1
+        if config.SLACK is True and item.find('Slack.exe') > -1:
+                is_it_running += 1
     change_led_status(is_it_running)
 
 
