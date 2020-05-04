@@ -5,20 +5,20 @@ URL_CONTEXT = 'led'
 LED_TYPE = 'neopixel'
 ZOOM = True
 TEAMS = True
+SLACK = True
 THEME = 'random'  # valentines, cool, nature, random (blank = random)
 # To add flexibility later for multiple devices.
 # USERNAME = 'naz'
 
 
-# TODO Write this better
 # Note: Need the /v for verbose. /fi filters the process and looks for window title for Teams meeting
 def tasklist_query():
-    if ZOOM is True and TEAMS is False:
-        query = 'tasklist /fo table /v /fi "imagename eq CptHost.exe"'
-    elif ZOOM is False and TEAMS is True:
-        query = 'tasklist /fo table /v /fi "imagename eq Teams.exe" /fi "windowtitle eq Meet*"'
-    else:
-        query = 'tasklist /fo table /v /fi "imagename eq CptHost.exe" && ' \
-                'tasklist /fo table /v /fi "imagename eq Teams.exe" /fi "windowtitle eq Meet*" /nh'
-
+    # Initialize the query so the rest can be appended
+    query = 'echo "============= Starting tasklist ============="'
+    if ZOOM is True:
+        query += ' && tasklist /fo table /v /fi "imagename eq CptHost.exe"'
+    if TEAMS is True:
+        query += '&& tasklist /fo table /v /fi "imagename eq Teams.exe" /fi "windowtitle eq Meet*"'
+    if SLACK is True:
+        query += '&& tasklist /fo table /v /fi "imagename eq Slack.exe" /fi "windowtitle eq call*"'
     return query
